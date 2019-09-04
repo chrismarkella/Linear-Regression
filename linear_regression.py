@@ -48,6 +48,29 @@ def quadratic_regression_output(q_sq_2, coefficients, interception, prediction_f
   print('this is %.2f percent accurate' %( coefficient_of_determination * 100) )
 
 
+def cubic_regression(x, y):
+  transformer = PolynomialFeatures(degree = 3, include_bias = False)
+  transformer.fit(x)
+  x_ = transformer.transform(x)
+
+  model = LinearRegression().fit(x_, y)
+  
+  coefficient_of_determination = model.score(x_, y)
+  interception = model.intercept_
+  coefficients = model.coef_
+
+  return (coefficient_of_determination, coefficients, interception)
+
+def cubic_regression_output(q_sq_2, coefficients, interception, prediction_function):
+  coefficient_of_determination = q_sq_2
+
+  print('The cubic regression model is y = %.4f*x^3 + %.4f*x^2 + %.4f*x + %.4f' % (coefficients[0], coefficients[1], coefficients[2], interception))
+
+  age = int(input('what is your age: '))
+  print('your recomended HR is %d' % (prediction(age)))
+  print('this is %.2f percent accurate' %( coefficient_of_determination * 100) )
+
+
 # Linear regression
 coefficient_of_determination, slope, interception = linear_regression(x, y)
 prediction = lambda age: slope * age + interception
@@ -60,3 +83,9 @@ coefficient_of_determination, coefficients, interception = quadratic_regression(
 prediction = lambda age: coefficients[-1] * age**2 + coefficients[-2]*age + interception
 
 quadratic_regression_output(coefficient_of_determination, coefficients, interception, prediction)
+
+# Cubic regression
+coefficient_of_determination, coefficients, interception = cubic_regression(x, y)
+prediction = lambda age: coefficients[-1] * age**3 + coefficients[-2]*age**2 + coefficients[-3]*age+ interception
+
+cubic_regression_output(coefficient_of_determination, coefficients, interception, prediction)
