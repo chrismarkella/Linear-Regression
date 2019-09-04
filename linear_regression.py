@@ -16,3 +16,4 @@ print('The linear regression model is y = %.2f*x + %.2f' % (slope, interception)
 
 age = int(input('what is your age: '))
 print('your recomended HR is %d' % (prediction(age)))
+print('this is %.2f percent accurate' %( coefficient_of_determination * 100) )
