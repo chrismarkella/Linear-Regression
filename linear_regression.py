@@ -142,8 +142,14 @@ def polynomial_regression_output(q_sq_2, coefficients, interception, prediction_
 
 # polynomial_regression_output(coefficient_of_determination, coefficients, interception, prediction)
 
-best_three_polynomial_regression = lambda x,y, max_degree: sorted([(polynomial_regression(x,y,i)[0], i) for i in range(2, max_degree)], reverse = True)[:3]
+def top_polynomial_regressions(x, y, max_degree, top = 10):
+  """
+  Print out the best polynomial regressions with the highest Q^2 in a sorted list 
+  """
+  sorted_polynomial_regressions = lambda x,y, max_degree: sorted([(polynomial_regression(x,y,i)[0], i) for i in range(2, max_degree)], reverse = True)
 
-print('the top three polynomial regressions are')
-for regression in best_three_polynomial_regression(x, y, 150):
-  print('%.3f Q^2 with degree %d' %(regression[0], regression[1]))
+  print('the top %d polynomial regressions are' %top)
+  for regression in sorted_polynomial_regressions(x, y, max_degree)[:top]:
+    print('%.4f Q^2 with degree %d' %(regression[0], regression[1]))
+
+top_polynomial_regressions(x, y, 150)
