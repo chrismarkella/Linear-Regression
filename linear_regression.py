@@ -101,44 +101,49 @@ def polynomial_regression_output(q_sq_2, coefficients, interception, prediction_
   print('this is %.2f percent accurate' %( coefficient_of_determination * 100) )
 
 
-# Linear regression
-coefficient_of_determination, slope, interception = linear_regression(x, y)
-prediction = lambda age: slope * age + interception
+# # Linear regression
+# coefficient_of_determination, slope, interception = linear_regression(x, y)
+# prediction = lambda age: slope * age + interception
 
-linear_regression_output(coefficient_of_determination, slope, interception, prediction)
+# linear_regression_output(coefficient_of_determination, slope, interception, prediction)
 
 
-# Quadratic regression
-coefficient_of_determination, coefficients, interception = quadratic_regression(x, y)
-prediction = lambda age: coefficients[-1] * age**2 + coefficients[-2]*age + interception
-prediction2 = lambda age: coefficients[0] * age + coefficients[1]*age**2 + interception
-prediction3 = lambda age: sum([coefficients[i]*age**(i + 1) for i in range(len(coefficients))]) + interception
+# # Quadratic regression
+# coefficient_of_determination, coefficients, interception = quadratic_regression(x, y)
+# prediction = lambda age: coefficients[-1] * age**2 + coefficients[-2]*age + interception
+# prediction2 = lambda age: coefficients[0] * age + coefficients[1]*age**2 + interception
+# prediction3 = lambda age: sum([coefficients[i]*age**(i + 1) for i in range(len(coefficients))]) + interception
 
-quadratic_regression_output(coefficient_of_determination, coefficients, interception, prediction)
-quadratic_regression_output(coefficient_of_determination, coefficients, interception, prediction2)
-quadratic_regression_output(coefficient_of_determination, coefficients, interception, prediction3)
+# quadratic_regression_output(coefficient_of_determination, coefficients, interception, prediction)
+# quadratic_regression_output(coefficient_of_determination, coefficients, interception, prediction2)
+# quadratic_regression_output(coefficient_of_determination, coefficients, interception, prediction3)
 
-# Cubic regression
-coefficient_of_determination, coefficients, interception = cubic_regression(x, y)
-prediction = lambda age: coefficients[-1] * age**3 + coefficients[-2]*age**2 + coefficients[-3]*age+ interception
-
-cubic_regression_output(coefficient_of_determination, coefficients, interception, prediction)
-
-# polynomial regression with degree 3
-coefficient_of_determination, coefficients, interception = polynomial_regression(x, y, 3)
-print(coefficient_of_determination, coefficients, interception)
-
-prediction = lambda age: sum([coefficients[i]*age**(i + 1) for i in range(len(coefficients))]) + interception
+# # Cubic regression
+# coefficient_of_determination, coefficients, interception = cubic_regression(x, y)
 # prediction = lambda age: coefficients[-1] * age**3 + coefficients[-2]*age**2 + coefficients[-3]*age+ interception
 
-polynomial_regression_output(coefficient_of_determination, coefficients, interception, prediction)
+# cubic_regression_output(coefficient_of_determination, coefficients, interception, prediction)
 
-# polynomial regression with degree 5
-coefficient_of_determination, coefficients, interception = polynomial_regression(x, y, 5)
-print(coefficient_of_determination, coefficients, interception)
+# # polynomial regression with degree 3
+# coefficient_of_determination, coefficients, interception = polynomial_regression(x, y, 3)
+# print(coefficient_of_determination, coefficients, interception)
 
-prediction = lambda age: sum([coefficients[i]*age**(i + 1) for i in range(len(coefficients))]) + interception
-# prediction = lambda age: coefficients[-1] * age**3 + coefficients[-2]*age**2 + coefficients[-3]*age+ interception
+# prediction = lambda age: sum([coefficients[i]*age**(i + 1) for i in range(len(coefficients))]) + interception
+# # prediction = lambda age: coefficients[-1] * age**3 + coefficients[-2]*age**2 + coefficients[-3]*age+ interception
 
-polynomial_regression_output(coefficient_of_determination, coefficients, interception, prediction)
+# polynomial_regression_output(coefficient_of_determination, coefficients, interception, prediction)
 
+# # polynomial regression with degree 5
+# coefficient_of_determination, coefficients, interception = polynomial_regression(x, y, 5)
+# print(coefficient_of_determination, coefficients, interception)
+
+# prediction = lambda age: sum([coefficients[i]*age**(i + 1) for i in range(len(coefficients))]) + interception
+# # prediction = lambda age: coefficients[-1] * age**3 + coefficients[-2]*age**2 + coefficients[-3]*age+ interception
+
+# polynomial_regression_output(coefficient_of_determination, coefficients, interception, prediction)
+
+best_three_polynomial_regression = lambda x,y, max_degree: sorted([(polynomial_regression(x,y,i)[0], i) for i in range(2, max_degree)], reverse = True)[:3]
+
+print('the top three polynomial regressions are')
+for regression in best_three_polynomial_regression(x, y, 150):
+  print('%.3f Q^2 with degree %d' %(regression[0], regression[1]))
