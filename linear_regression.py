@@ -202,5 +202,10 @@ def testing_functionality(x, y):
   
   top_polynomial_regressions(x, y, 150, 5)
 
+if __name__ == '__main__':
+  if len(sys.argv) >= 2 and sys.argv[1] == 'testing':
+    testing_functionality(x, y)
+  else:
+    print('usage: python linear_regression.py testing')
 
 
