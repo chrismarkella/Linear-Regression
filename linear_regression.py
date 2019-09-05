@@ -11,6 +11,44 @@ x = np.array([16, 17, 23, 25, 28, 31, 40, 48, 54, 67]).reshape((-1, 1))
 y = np.array([180, 163, 172, 168, 165, 156, 153, 144, 139, 130])
 
 def polynomial_regression(x, y, degree_my = 1):
+  """
+  Return R^2, coefficients and the interception
+  
+  polynomial_regression(x, y, degree_my = 1) -> (r_sq, coefficients, interception)
+
+  Parameters
+  ----------
+  x: np.array, regressors
+  y: np.array, predictors
+  degree: int, optional, default 1, the degree of the model function
+  
+  Examples
+  --------
+  >>> x = np.array([16, 17, 23, 25, 28, 31, 40, 48, 54, 67]).reshape((-1, 1))
+  >>> y = np.array([180, 163, 172, 168, 165, 156, 153, 144, 139, 130])
+
+  >>> x
+  array([[16],
+         [17],
+         [23],
+         [25],
+         [28],
+         [31],
+         [40],
+         [48],
+         [54],
+         [67]])
+  >>> y
+  array([180, 163, 172, 168, 165, 156, 153, 144, 139, 130])
+  >>> polynomial_regression(x, y)
+  (0.9141779810921304, array([-0.88693692]), 187.95409848808737)
+  >>> polynomial_regression(x, y, 2)
+  (0.9147602910606555, array([-1.01045344,  0.00153909]), 189.99421074646295)
+  >>> polynomial_regression(x, y, 5)
+  (0.9184131002053144, array([ 7.73620330e+00, -4.45581354e-01,  1.08361046e-02, -1.26584517e-04,
+          5.75609467e-07]), 126.4417938766303)
+  >>> 
+  """
   transformer = PolynomialFeatures(degree = degree_my, include_bias = False)
   transformer.fit(x)
   x_ = transformer.transform(x)
@@ -90,6 +128,50 @@ def polynomial_regression_output(q_sq_2, coefficients, interception, prediction_
 def top_polynomial_regressions(x, y, max_degree, top = 10):
   """
   Print out the best polynomial regressions with the highest Q^2 in a sorted list 
+  
+  Parameters
+  ----------
+  x: np.array, regressors
+  y: np.array, predictors
+  max_degree: int, the degree of the model function
+  top: int, number of rows printed from the sorted regressions
+  
+
+  Examples
+  --------
+  >>> x = np.array([16, 17, 23, 25, 28, 31, 40, 48, 54, 67]).reshape((-1, 1))
+  >>> y = np.array([180, 163, 172, 168, 165, 156, 153, 144, 139, 130])
+  >>> x
+  array([[16],
+         [17],
+         [23],
+         [25],
+         [28],
+         [31],
+         [40],
+         [48],
+         [54],
+         [67]])
+  >>> y
+  array([180, 163, 172, 168, 165, 156, 153, 144, 139, 130])
+  >>> top_polynomial_regressions(x, y, 20)
+  the top 10 polynomial regressions are
+  0.9920 Q^2 with degree 7
+  0.9838 Q^2 with degree 8
+  0.9741 Q^2 with degree 9
+  0.9333 Q^2 with degree 18
+  0.9332 Q^2 with degree 17
+  0.9330 Q^2 with degree 19
+  0.9330 Q^2 with degree 15
+  0.9327 Q^2 with degree 16
+  0.9326 Q^2 with degree 14
+  0.9319 Q^2 with degree 13
+  >>> top_polynomial_regressions(x, y, 20, 3)
+  the top 3 polynomial regressions are
+  0.9920 Q^2 with degree 7
+  0.9838 Q^2 with degree 8
+  0.9741 Q^2 with degree 9
+  >>> 
   """
   sorted_polynomial_regressions = lambda x,y, max_degree: sorted([(polynomial_regression(x,y,i)[0], i) for i in range(2, max_degree)], reverse = True)
 
