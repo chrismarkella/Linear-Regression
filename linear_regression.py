@@ -116,12 +116,12 @@ def polynomial_regression_output(q_sq_2, coefficients, interception, prediction_
   coefficient_of_determination = q_sq_2
 
   print('The polynomial regression model with degree %d is' %(degree) )
-  model_txt = ' + '.join([str(coefficients[i]) + '*x^' + str(i+1) for i in range(len(coefficients))])
+  model_txt = ' + '.join([str(round(coefficients[i], 2)) + '*x^' + str(i+1) for i in range(len(coefficients))])
   model_txt = model_txt + ' + ' + str(interception)
   print(model_txt)
 
   age = 20
-  print('your recomended HR is %d' % (prediction(age)))
+  print('your recomended HR is %d' % (prediction_function(age)))
   print('this is %.2f percent accurate' %( coefficient_of_determination * 100) )
 
 
@@ -199,6 +199,13 @@ def testing_functionality(x, y):
       lambda age: sum( [coefficients[i] * age**(i + 1) for i in range(len(coefficients))] ) + interception
   
     f_out(r_sq, coefficients, interception, prediction)
+
+  for degree in [7, 8, 9]:
+    r_sq, coefficients, interception = polynomial_regression(x, y, degree)
+    prediction = \
+      lambda age: sum( [coefficients[i] * age**(i + 1) for i in range(len(coefficients))] ) + interception
+  
+    polynomial_regression_output(r_sq, coefficients, interception, prediction)
   
   top_polynomial_regressions(x, y, 150, 5)
 
