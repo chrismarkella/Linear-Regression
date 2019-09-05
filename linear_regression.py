@@ -2,6 +2,8 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 
+# Got the datapoins from
+# https://johnstonmd.wordpress.com/teaching/math-178-spring-2017/
 x = np.array([16, 17, 23, 25, 28, 31, 40, 48, 54, 67]).reshape((-1, 1))
 y = np.array([180, 163, 172, 168, 165, 156, 153, 144, 139, 130])
 
@@ -16,6 +18,15 @@ def linear_regression(x, y):
   interception = model.intercept_
 
   return (coefficient_of_determination, slope, interception)
+
+def linear_regression_reuse(x, y):
+  """
+  >>> linear_regression(x, y) == linear_regression_reuse(x, y)
+  True
+  """
+  # Reusing the existing 'general' polynomial_regression function
+  return polynomial_regression(x, y, 1) 
+  
 
 def linear_regression_output(q_sq_2, slope, interception, prediction_function):
   coefficient_of_determination = q_sq_2
@@ -41,6 +52,18 @@ def quadratic_regression(x, y):
 
   return (coefficient_of_determination, coefficients, interception)
   
+def quadratic_regression_reuse(x, y):
+  """
+  In the testing splitting up the return values to START, MID, END
+  then compairing the values one by one.
+  NOTICE: quadratic_regression(x, y) == quadratic_regression_reuse(x, y) will throw and EXCEPTION!
+  >>> start1, *mid1, end1 = quadratic_regression(x, y)
+  >>> start2, *mid2, end2 = quadratic_regression_reuse(x, y)
+  >>> start1 == start2 and np.array_equal(mid1, mid2) and end1 == end2
+  True
+  """
+  return polynomial_regression(x, y, 2)
+
 def quadratic_regression_output(q_sq_2, coefficients, interception, prediction_function):
   coefficient_of_determination = q_sq_2
 
@@ -77,6 +100,18 @@ def cubic_regression(x, y):
 
   return (coefficient_of_determination, coefficients, interception)
 
+def cubic_regression_reuse(x, y):
+  """
+  In the testing splitting up the return values to START, MID, END
+  then compairing the values one by one.
+  NOTICE: cubic_regression(x, y) == cubic_regression_reuse(x, y) will throw and EXCEPTION!
+  >>> start1, *mid1, end1 = cubic_regression(x, y)
+  >>> start2, *mid2, end2 = cubic_regression_reuse(x, y)
+  >>> start1 == start2 and np.array_equal(mid1, mid2) and end1 == end2
+  True
+  """
+  return polynomial_regression(x, y, 3)
+
 def cubic_regression_output(q_sq_2, coefficients, interception, prediction_function):
   coefficient_of_determination = q_sq_2
 
@@ -101,47 +136,6 @@ def polynomial_regression_output(q_sq_2, coefficients, interception, prediction_
   print('this is %.2f percent accurate' %( coefficient_of_determination * 100) )
 
 
-# # Linear regression
-# coefficient_of_determination, slope, interception = linear_regression(x, y)
-# prediction = lambda age: slope * age + interception
-
-# linear_regression_output(coefficient_of_determination, slope, interception, prediction)
-
-
-# # Quadratic regression
-# coefficient_of_determination, coefficients, interception = quadratic_regression(x, y)
-# prediction = lambda age: coefficients[-1] * age**2 + coefficients[-2]*age + interception
-# prediction2 = lambda age: coefficients[0] * age + coefficients[1]*age**2 + interception
-# prediction3 = lambda age: sum([coefficients[i]*age**(i + 1) for i in range(len(coefficients))]) + interception
-
-# quadratic_regression_output(coefficient_of_determination, coefficients, interception, prediction)
-# quadratic_regression_output(coefficient_of_determination, coefficients, interception, prediction2)
-# quadratic_regression_output(coefficient_of_determination, coefficients, interception, prediction3)
-
-# # Cubic regression
-# coefficient_of_determination, coefficients, interception = cubic_regression(x, y)
-# prediction = lambda age: coefficients[-1] * age**3 + coefficients[-2]*age**2 + coefficients[-3]*age+ interception
-
-# cubic_regression_output(coefficient_of_determination, coefficients, interception, prediction)
-
-# # polynomial regression with degree 3
-# coefficient_of_determination, coefficients, interception = polynomial_regression(x, y, 3)
-# print(coefficient_of_determination, coefficients, interception)
-
-# prediction = lambda age: sum([coefficients[i]*age**(i + 1) for i in range(len(coefficients))]) + interception
-# # prediction = lambda age: coefficients[-1] * age**3 + coefficients[-2]*age**2 + coefficients[-3]*age+ interception
-
-# polynomial_regression_output(coefficient_of_determination, coefficients, interception, prediction)
-
-# # polynomial regression with degree 5
-# coefficient_of_determination, coefficients, interception = polynomial_regression(x, y, 5)
-# print(coefficient_of_determination, coefficients, interception)
-
-# prediction = lambda age: sum([coefficients[i]*age**(i + 1) for i in range(len(coefficients))]) + interception
-# # prediction = lambda age: coefficients[-1] * age**3 + coefficients[-2]*age**2 + coefficients[-3]*age+ interception
-
-# polynomial_regression_output(coefficient_of_determination, coefficients, interception, prediction)
-
 def top_polynomial_regressions(x, y, max_degree, top = 10):
   """
   Print out the best polynomial regressions with the highest Q^2 in a sorted list 
@@ -152,4 +146,9 @@ def top_polynomial_regressions(x, y, max_degree, top = 10):
   for regression in sorted_polynomial_regressions(x, y, max_degree)[:top]:
     print('%.4f Q^2 with degree %d' %(regression[0], regression[1]))
 
-top_polynomial_regressions(x, y, 150)
+
+if __name__ == "__main__":
+  print('\n'*20, 'All tests passed')
+
+  import doctest
+  doctest.testmod()
