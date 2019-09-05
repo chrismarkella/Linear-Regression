@@ -2,10 +2,10 @@
 # Used this tutorial: https://realpython.com/linear-regression-in-python/
 import sys
 import numpy as np
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model  import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 
-# Got the datapoins from
+# Got the datapoints from
 # https://johnstonmd.wordpress.com/teaching/math-178-spring-2017/
 x = np.array([16, 17, 23, 25, 28, 31, 40, 48, 54, 67]).reshape((-1, 1))
 y = np.array([180, 163, 172, 168, 165, 156, 153, 144, 139, 130])
@@ -74,7 +74,7 @@ def linear_regression_output(q_sq_2, slope, interception, prediction_function):
 
   print('The linear regression model is y = %.2f*x + %.2f' % (slope, interception))
 
-  age = int(input('what is your age: '))
+  age = 20
   print('your recomended HR is %d' % (prediction_function(age)))
   print('this is %.2f percent accurate' %( coefficient_of_determination * 100) )
 
@@ -90,7 +90,7 @@ def quadratic_regression_output(q_sq_2, coefficients, interception, prediction_f
   print('The quadratic regression model is y = %.4f*x^2 + %.4f*x + %.4f' % (coefficients[-1], coefficients[-2], interception))
   # print('The quadratic regression model is y = %.4f*x + %.4f*x^2 + %.4f' % (coefficients[0] , coefficients[1] , interception))
 
-  age = int(input('what is your age: '))
+  age = 20
   print('your recomended HR is %d' % (prediction_function(age)))
   print('this is %.2f percent accurate' %( coefficient_of_determination * 100) )
 
@@ -106,7 +106,7 @@ def cubic_regression_output(q_sq_2, coefficients, interception, prediction_funct
 
   print('The cubic regression model is y = %.4f*x^3 + %.4f*x^2 + %.4f*x + %.4f' % (coefficients[0], coefficients[1], coefficients[2], interception))
 
-  age = int(input('what is your age: '))
+  age = 20
   print('your recomended HR is %d' % (prediction_function(age)))
   print('this is %.2f percent accurate' %( coefficient_of_determination * 100) )
 
@@ -120,7 +120,7 @@ def polynomial_regression_output(q_sq_2, coefficients, interception, prediction_
   model_txt = model_txt + ' + ' + str(interception)
   print(model_txt)
 
-  age = int(input('what is your age: '))
+  age = 20
   print('your recomended HR is %d' % (prediction(age)))
   print('this is %.2f percent accurate' %( coefficient_of_determination * 100) )
 
@@ -203,10 +203,4 @@ def testing_functionality(x, y):
   top_polynomial_regressions(x, y, 150, 5)
 
 
-if __name__ == "__main__":
-  
-  if len(sys.argv) == 1 or sys.argv[1] != 'testing' :
-    print('usage: python linear_regression testing')
-  else:
-    testing_functionality(x, y)
 
