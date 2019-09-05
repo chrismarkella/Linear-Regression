@@ -1,6 +1,6 @@
 
 # Used this tutorial: https://realpython.com/linear-regression-in-python/
-
+import sys
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
@@ -179,10 +179,8 @@ def top_polynomial_regressions(x, y, max_degree, top = 10):
   for regression in sorted_polynomial_regressions(x, y, max_degree)[:top]:
     print('%.4f Q^2 with degree %d' %(regression[0], regression[1]))
 
-
-
-
-if __name__ == "__main__":
+def testing_functionality(x, y):
+  print('----> Testing:')
 
   #  '\' is just for to be able to break the line and tabulate nice
   functions = \
@@ -191,6 +189,9 @@ if __name__ == "__main__":
     (quadratic_regression, quadratic_regression_output),
     (cubic_regression,     cubic_regression_output    )
   ]
+  
+  print('x = \n', x)
+  print('y = '  , y)
 
   for f_in, f_out in functions:
     r_sq, coefficients, interception = f_in(x,y)
@@ -198,5 +199,14 @@ if __name__ == "__main__":
       lambda age: sum( [coefficients[i] * age**(i + 1) for i in range(len(coefficients))] ) + interception
   
     f_out(r_sq, coefficients, interception, prediction)
-
+  
   top_polynomial_regressions(x, y, 150, 5)
+
+
+if __name__ == "__main__":
+  
+  if len(sys.argv) == 1 or sys.argv[1] != 'testing' :
+    print('usage: python linear_regression testing')
+  else:
+    testing_functionality(x, y)
+
